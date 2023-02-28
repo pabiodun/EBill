@@ -13,7 +13,9 @@ namespace EBill.Controllers
         // GET: EBill
         public ActionResult Index()
         {
-            return View();
+            Data data = new Data();
+            var list = data.GetAllDetail();
+            return View(list);
         }
         public ActionResult Create()
         {
@@ -32,6 +34,12 @@ namespace EBill.Controllers
         public ActionResult CreateItem(Items item)
         {
             return PartialView("_CreateItem",item);
+        }
+        public ActionResult ViewBill(int Id)
+        {
+            Data data = new Data();
+            var details = data.GetDetail(Id);
+            return View(details);
         }
     }
 }
