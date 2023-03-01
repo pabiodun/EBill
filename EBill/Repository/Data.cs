@@ -115,19 +115,23 @@ namespace EBill.Repository
             try
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("", con);
+                SqlCommand cmd = new SqlCommand("spt_getEBillDetails", con);
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("Id", Id);
                 SqlDataReader reader = cmd.ExecuteReader();
                 if(reader.HasRows)
                 {
+                    
+                }
+                while (reader.Read())
+                {
+                    detail.Id = int.Parse(reader["BillId"].ToString());
                     detail.CustomerName = reader["CustomerName"].ToString();
                     detail.MobileNumber = reader["MobileNumber"].ToString();
                     detail.Address = reader["Address"].ToString();
                     detail.TotalAmount = int.Parse(reader["TotalAmount"].ToString());
-                }
-                while (reader.Read())
-                {
                     item = new Items();
+                    item.Id = int.Parse(reader["ItemId"].ToString());
                     item.ProductName = reader["ProductName"].ToString();
                     item.Price = reader["Price"].ToString();
                     item.Quantity = reader["Quantity"].ToString();
